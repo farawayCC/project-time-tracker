@@ -14,6 +14,11 @@ Just create a new project and hit play button.
 - run `yarn build` to create a build files for your machine
 - get your app in /dist
 
+#### Run app without installation
+- clone
+- run `yarn`
+- run `yarn start`
+- wait :D
 
 ## P.S.
 

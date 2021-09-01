@@ -9,12 +9,9 @@ const isDev = require("electron-is-dev");
 let mainWindow;
 
 function createWindow() {
-  //icon taken from https://www.flaticon.com/premium-icon/time-management_4482235?term=project%20time&page=1&position=9&page=1&position=9&related_id=4482235&origin=tag
   mainWindow = new BrowserWindow({
     width: 820,
     height: 680,
-    minWidth: 800,
-    minHeight: 430,
     icon: '../public/icon.ico',
     webPreferences: {
       backgroundThrottling: false,
@@ -24,13 +21,13 @@ function createWindow() {
   });
   mainWindow.loadURL(
     isDev
-      ? "http://localhost:4000"
+      ? "http://localhost:3000"
       : `file://${path.join(__dirname, "../build/index.html")}`
   );
   mainWindow.on("closed", () => (mainWindow = null));
 }
 
-app.setAppUserModelId("Your app name")
+app.setAppUserModelId("Project Time Tracker")
 
 app.on("ready", createWindow);
 

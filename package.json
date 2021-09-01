@@ -1,28 +1,54 @@
 {
-  "name": "ProjectTimeTracker",
+  "name": "project-time-tracker",
   "version": "1.0.0",
-  "main": "./public/electron.js",
+  "repository": "https://github.com/Klygins/project-time-tracker",
+  "author": "farawaycc <iosdevfarconsoft@gmail.com>",
   "license": "MIT",
-  "author": "farawayCC <iosdevfarconsoft@gmail.com>",
-  "description": "Simply track the time you spend on a bunch of projects.",
+  "main": "public/electron.js",
+  "homepage": "./",
   "dependencies": {
     "electron-is-dev": "^2.0.0",
-    "electron-squirrel-startup": "^1.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-scripts": "^4.0.3",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.3"
   },
+  "devDependencies": {
+    "concurrently": "^6.0.0",
+    "cross-env": "^7.0.3",
+    "electron": "^12.0.1",
+    "electron-builder": "^22.10.5",
+    "react-scripts": "^4.0.3",
+    "wait-on": "^5.3.0"
+  },
   "scripts": {
-    "start": "yarn && concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on tcp:4000 && electron .\"",
-    "electron": "wait-on tcp:4000 && electron-forge start",
     "react-start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "package": "react-scripts build && electron-forge package",
-    "make": "react-scripts build && electron-forge make"
+    "react-build": "react-scripts build",
+    "react-test": "react-scripts test --env=jsdom",
+    "react-eject": "react-scripts eject",
+    "electron-build": "electron-builder",
+    "release": "yarn react-build && electron-builder --publish=always",
+    "build": "yarn react-build && yarn electron-build",
+    "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron .\""
+  },
+  "icon": "./src/icon.png",
+  "build": {
+    "appId": "com.example.Project-Time-Tracker",
+    "productName": "Project Time Tracker",
+    "copyright": "Copyright © 2021 ${author}",
+    "mac": {
+      "icon": "./src/icon.png",
+      "category": "public.app-category.productivity"
+    },
+    "win": {
+      "icon": "./src/icon.png"
+    },
+    "files": [
+      "./src/*"
+    ],
+    "directories": {
+      "buildResources": "src"
+    }
   },
   "browserslist": {
     "production": [
@@ -35,44 +61,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@electron-forge/cli": "^6.0.0-beta.60",
-    "@electron-forge/maker-deb": "^6.0.0-beta.60",
-    "@electron-forge/maker-rpm": "^6.0.0-beta.60",
-    "@electron-forge/maker-squirrel": "^6.0.0-beta.60",
-    "@electron-forge/maker-zip": "^6.0.0-beta.60",
-    "concurrently": "^6.2.1",
-    "cross-env": "^7.0.3",
-    "electron": "^13.2.2",
-    "wait-on": "^6.0.0"
-  },
-  "config": {
-    "forge": {
-      "packagerConfig": {},
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "ProjectTimeTracker",
-            "title": "Project Time Tracker"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ]
-    }
   }
 }
