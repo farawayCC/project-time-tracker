@@ -26,7 +26,7 @@ const MainPage = () => {
 
         if (isPlaying) {
             // Turned on
-            const isDev = true
+            const isDev = false
             if (selectedProject !== '') {
                 const newTimer = setInterval(() => {
                     projUtils.addMinutes(selectedProject, 1)

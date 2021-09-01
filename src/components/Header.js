@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { Button, Grid, Header } from 'semantic-ui-react'
 
 const HeaderComponent = (props) => {
-
-
     return (
         <div id='header' style={{ padding: '.7em' }}>
             <Grid columns={3} >
@@ -11,7 +9,7 @@ const HeaderComponent = (props) => {
                     <Grid.Column width={5}>
                         <Button
                             basic
-                            size='big'
+                            size='small'
                             onClick={() => props.editingToggled()}
                             content={props.isEditing ? 'Done Editing' : 'Edit'}
                         />
@@ -22,7 +20,7 @@ const HeaderComponent = (props) => {
                     <Grid.Column width={5}>
                         <Button
                             floated='right'
-                            size='big'
+                            size='massive'
                             onClick={() => props.playingToggled()}
                             icon={props.isPlaying ? 'pause' : 'play'}
                         />
