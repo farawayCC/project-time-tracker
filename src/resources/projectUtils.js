@@ -49,19 +49,6 @@ export const getProjects = () => {
     return JSON.parse(localStorage.getItem('projects')) || {}
 }
 
-const compareProjects = (proj1, proj2) => {
-    const obj1 = proj1[key].currentMinutes / proj1[key].totalMinutes
-    const obj2 = proj2[key].currentMinutes / proj2[key].totalMinutes
-
-    if (obj1 < obj2)
-        return -1
-
-    if (obj1 > obj2)
-        return 1
-
-    return 0
-}
-
 const saveChanges = (prevProjects) => {
     localStorage.setItem('projects', JSON.stringify(prevProjects))
 }
