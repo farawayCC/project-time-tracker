@@ -1,9 +1,13 @@
 {
-  "name": "timer",
+  "name": "ProjectTimeTracker",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "./public/electron.js",
   "license": "MIT",
+  "author": "farawayCC <iosdevfarconsoft@gmail.com>",
+  "description": "Simply track the time you spend on a bunch of projects.",
   "dependencies": {
+    "electron-is-dev": "^2.0.0",
+    "electron-squirrel-startup": "^1.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "^4.0.3",
@@ -11,7 +15,14 @@
     "semantic-ui-react": "^2.0.3"
   },
   "scripts": {
-    "start": "react-scripts start"
+    "start": "yarn && concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on tcp:4000 && electron .\"",
+    "electron": "wait-on tcp:4000 && electron-forge start",
+    "react-start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "package": "react-scripts build && electron-forge package",
+    "make": "react-scripts build && electron-forge make"
   },
   "browserslist": {
     "production": [
@@ -24,5 +35,44 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.60",
+    "@electron-forge/maker-deb": "^6.0.0-beta.60",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.60",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.60",
+    "@electron-forge/maker-zip": "^6.0.0-beta.60",
+    "concurrently": "^6.2.1",
+    "cross-env": "^7.0.3",
+    "electron": "^13.2.2",
+    "wait-on": "^6.0.0"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "ProjectTimeTracker",
+            "title": "Project Time Tracker"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
   }
 }
