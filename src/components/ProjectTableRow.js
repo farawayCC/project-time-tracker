@@ -3,8 +3,9 @@ import * as utils from '../resources/utils'
 
 export default (props) => {
     const id = props.name + props.totalMinutes
+    const selectedCellStyle = { fontWeight: "bold", color: "black" }
     return (
-        <Table.Row>
+        <Table.Row positive={props.isSelected}>
             <Table.Cell style={{ paddingLeft: '1em' }}>
                 {props.isSelected
                     ? <Header color='green' content='Selected' />
@@ -18,9 +19,9 @@ export default (props) => {
                     />
                 }
             </Table.Cell>
-            <Table.Cell>{props.name}</Table.Cell>
-            <Table.Cell>{utils.minutesToHMString(props.currentMinutes)}</Table.Cell>
-            <Table.Cell>{utils.minutesToHMString(props.totalMinutes)}</Table.Cell>
+            <Table.Cell content={props.name} style={props.isSelected ? selectedCellStyle : null} />
+            <Table.Cell content={utils.minutesToHMString(props.currentMinutes)} style={props.isSelected ? selectedCellStyle : null} />
+            <Table.Cell content={utils.minutesToHMString(props.totalMinutes)} style={props.isSelected ? selectedCellStyle : null} />
             {props.isEditing
                 ? <Table.Cell style={{ padding: '1em' }}>
                     <Button
