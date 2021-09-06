@@ -46,7 +46,7 @@ const ProjectList = (props) => {
                 }
             }
             return (
-                <Table basic='very'>
+                <Table basic='very' unstackable>
                     <Table.Header>
                         <Table.Row>
                             <Table.HeaderCell></Table.HeaderCell>
@@ -65,7 +65,7 @@ const ProjectList = (props) => {
             )
         } else {
             return (
-                <Table basic='very'>
+                <Table basic='very' unstackable>
                     <Table.Header>
                         <Table.Row>
                             <Table.HeaderCell></Table.HeaderCell>
