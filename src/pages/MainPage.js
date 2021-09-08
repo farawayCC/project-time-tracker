@@ -45,6 +45,10 @@ const MainPage = () => {
                 isPlaying={isPlaying}
                 isEditing={isEditing}
                 editingToggled={() => setIsEditing(!isEditing)}
+                weekRestart={(writeDebt) => {
+                    projUtils.weekRestart(writeDebt)
+                    initValues()
+                }}
                 playingToggled={() => setIsPlaying(!isPlaying)}
             />
             <ProjectList

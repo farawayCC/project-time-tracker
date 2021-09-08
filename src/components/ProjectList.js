@@ -3,6 +3,7 @@ import { Button, Grid, Table, Header } from 'semantic-ui-react'
 import * as projUtils from '../resources/projectUtils'
 import ProjectTableRow from './ProjectTableRow'
 import NewProjectTableRow from './NewProjectTableRow'
+import Project from '../resources/Project'
 
 
 const ProjectList = (props) => {
@@ -31,9 +32,7 @@ const ProjectList = (props) => {
                                 selectProject={(name) => props.selectProject(name)}
                                 isEditing={props.isEditing}
                                 isSelected={props.selectedProject === project.name}
-                                name={project.name}
-                                currentMinutes={project.currentMinutes}
-                                totalMinutes={project.totalMinutes}
+                                project={project}
                                 removeProject={(name) => {
                                     projUtils.removeProject(name)
                                     props.rerender()
@@ -79,9 +78,7 @@ const ProjectList = (props) => {
                     <Table.Body>
                         <ProjectTableRow
                             selectProject={(name) => props.selectProject(name)}
-                            name='Example Project name'
-                            currentMinutes={1200}
-                            totalMinutes={4 * 600}
+                            project={new Project('Example Project name', 4 * 600, 1200)}
                         />
                         {editingTableRow(true)}
                     </Table.Body>

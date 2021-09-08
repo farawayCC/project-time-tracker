@@ -1,5 +1,5 @@
 import Project from './Project'
-
+import moment from 'moment'
 
 export const addMinutes = (projectName, minutesCount) => {
     const prevProjects = getProjects()
@@ -12,14 +12,22 @@ export const addMinutes = (projectName, minutesCount) => {
     }
 }
 
-export const weekRestart = () => {
+export const canRestartWeek = () => {
+    const lastRestart = localStorage.getItem('lastRestart')
+    if (!lastRestart) return true
+    var days = moment().diff(lastRestart, "days");
+    return days > 5
+}
+
+export const weekRestart = (writeDebt) => {
     const prevProjects = getProjects()
     for (const [key, project] of Object.entries(prevProjects)) {
-        const debt = project.totalMinutes - project.currentMinutes
-        project.debt += debt
+        if (writeDebt)
+            project.debt += project.totalMinutes - project.currentMinutes
         project.currentMinutes = 0
     }
     saveChanges(prevProjects)
+    localStorage.setItem('lastRestart', moment())
 }
 
 export const addProject = (projectName, totalMinutes, alreadyWorked) => {
@@ -53,7 +61,7 @@ const saveChanges = (prevProjects) => {
     localStorage.setItem('projects', JSON.stringify(prevProjects))
 }
 
-export const getLastSelectedProject = () => { 
+export const getLastSelectedProject = () => {
     var result = localStorage.getItem('lastSelectedProject') || ''
     const projects = getProjects()
     //if the selected project exists no more
