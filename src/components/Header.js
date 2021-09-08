@@ -19,7 +19,7 @@ const HeaderComponent = (props) => {
                         />
                     </Grid.Column>
                     <Grid.Column width={4}>
-                        <Header inverted color='blue' as='h1' textAlign='center'>Projects List</Header>
+                        <Header inverted color='blue' as='h1' textAlign='center' content='Projects List' />
                     </Grid.Column>
                     <Grid.Column width={6}>
                         {props.isEditing ?
