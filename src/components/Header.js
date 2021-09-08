@@ -11,6 +11,7 @@ const HeaderComponent = (props) => {
                 <Grid.Row>
                     <Grid.Column width={6}>
                         <Button
+                            inverted
                             basic
                             size='small'
                             onClick={() => props.editingToggled()}
@@ -18,11 +19,12 @@ const HeaderComponent = (props) => {
                         />
                     </Grid.Column>
                     <Grid.Column width={4}>
-                        <Header color='blue' as='h1' textAlign='center'>Projects List</Header>
+                        <Header inverted color='blue' as='h1' textAlign='center'>Projects List</Header>
                     </Grid.Column>
                     <Grid.Column width={6}>
                         {props.isEditing ?
                             <Button
+                                inverted
                                 disabled={!canRestartWeek}
                                 size='small'
                                 icon='sync alternate'
@@ -40,8 +42,9 @@ const HeaderComponent = (props) => {
                             : null
                         }
                         <Button
+                            inverted
                             floated='right'
-                            size='massive'
+                            size='big'
                             onClick={() => props.playingToggled()}
                             icon={props.isPlaying ? 'pause' : 'play'}
                         />

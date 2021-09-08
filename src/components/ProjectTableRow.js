@@ -5,10 +5,10 @@ export default (props) => {
     const id = props.project.name + props.project.totalMinutes
     const selectedCellStyle = { fontWeight: "bold", color: "black" }
     return (
-        <Table.Row positive={props.isSelected}>
+        <Table.Row active={props.isSelected}>
             <Table.Cell style={{ paddingLeft: '1em' }}>
                 {props.isSelected
-                    ? <Header color='green' content='Selected' />
+                    ? <Header color='green' content='Selected' inver />
                     : <Button
                         basic
                         size='small'
