@@ -8,7 +8,7 @@ export default (props) => {
         <Table.Row active={props.isSelected}>
             <Table.Cell style={{ paddingLeft: '1em' }}>
                 {props.isSelected
-                    ? <Header color='green' content='Selected' inver />
+                    ? <Header color='green' content='Selected' inverted />
                     : <Button
                         basic
                         size='small'

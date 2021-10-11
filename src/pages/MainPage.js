@@ -4,11 +4,10 @@ import ProjectList from '../components/ProjectList'
 import * as projUtils from '../resources/projectUtils'
 
 const MainPage = () => {
-    const [timer, setTimer] = useState(-1)
     const [selectedProject, setSelectedProject] = useState('')
-    const [isPlaying, setIsPlaying] = useState(false)
     const [isEditing, setIsEditing] = useState(false)
     const [projects, setProjects] = useState({})
+    const [appBackgroundColor, setAppBackgroundColor] = useState('#000022')
 
     const initValues = () => {
         setProjects(projUtils.getProjects())
@@ -17,39 +16,38 @@ const MainPage = () => {
 
     useEffect(() => {
         initValues()
-
-        return () => clearInterval(timer)
     }, [])
 
-    useEffect(() => {
-        if (timer) clearInterval(timer)
+    const recordWorkMinute = () => {
+        projUtils.addMinutes(selectedProject, 1)
+        setProjects(projUtils.getProjects())
+    }
 
-        if (isPlaying) {
-            // Turned on
-            const isDev = false
-            if (selectedProject !== '') {
-                const newTimer = setInterval(() => {
-                    projUtils.addMinutes(selectedProject, 1)
-                    setProjects(projUtils.getProjects())
-                }, isDev ? 500 : 60 * 1000)
-                setTimer(newTimer)
-            }
+    const setupBackgroundColor = (newWorkState) => {
+        switch (newWorkState) {
+            case 'work':
+                setAppBackgroundColor('#0C1B33')
+                break;
+            case 'rest':
+                setAppBackgroundColor('#005E7C')
+                break;
+            default:
+                setAppBackgroundColor('#000022')
+                break;
         }
-
-        return () => clearInterval(timer)
-    }, [isPlaying, selectedProject])
+    }
 
     return (
-        <div className='App'>
+        <div className='App' style={{ background: appBackgroundColor }} >
             <HeaderComponent
-                isPlaying={isPlaying}
                 isEditing={isEditing}
                 editingToggled={() => setIsEditing(!isEditing)}
                 weekRestart={(writeDebt) => {
                     projUtils.weekRestart(writeDebt)
                     initValues()
                 }}
-                playingToggled={() => setIsPlaying(!isPlaying)}
+                workMinutePassed={() => recordWorkMinute()}
+                workStateChanged={(newWorkState) => setupBackgroundColor(newWorkState)}
             />
             <ProjectList
                 projects={projects}

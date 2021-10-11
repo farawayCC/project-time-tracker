@@ -1,6 +1,6 @@
 {
-  "name": "project-time-tracker",
-  "version": "1.0.0",
+  "name": "Project-Time-Tracker",
+  "version": "1.2.2",
   "description": "Simply track time you spend on a bunch of projects.",
   "repository": "https://github.com/Klygins/project-time-tracker",
   "author": "farawaycc <iosdevfarconsoft@gmail.com>",

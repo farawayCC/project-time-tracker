@@ -5,7 +5,7 @@ const App = () => {
     return (
         <div id='timer'>
             <MainPage />
-        </div>
+        </div >
     )
 }
 

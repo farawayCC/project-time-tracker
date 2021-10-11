@@ -87,8 +87,17 @@ const ProjectList = (props) => {
         }
     }
 
+    const componentStyle = {
+        width: '100%',
+        height: '85vh',
+        top: '6em',
+        position: 'absolute',
+        bottom: '0px',
+        overflow: 'auto'
+    }
+
     return (
-        <div>
+        <div style={componentStyle}>
             {renderProjectsTable()}
         </div>
     )

@@ -1,39 +1,41 @@
 import React, { useState } from 'react'
 import { Button, Grid, Header, Checkbox } from 'semantic-ui-react'
 import * as projUtils from '../resources/projectUtils'
+import TimerComponent from './TimerComponent'
 
-const HeaderComponent = (props) => {
+const HeaderComponent = ({
+    isEditing, editingToggled, weekRestart, workMinutePassed, workStateChanged
+}) => {
+
     const [writeDebt, setWriteDebt] = useState(false)
     const canRestartWeek = projUtils.canRestartWeek()
+
     return (
         <div id='header' style={{ padding: '.7em' }}>
-            <Grid columns={3} >
+            <Grid columns='equal'>
                 <Grid.Row>
-                    <Grid.Column width={6}>
+                    <Grid.Column width='2'>
                         <Button
                             inverted
                             basic
                             size='small'
-                            onClick={() => props.editingToggled()}
-                            content={props.isEditing ? 'Done Editing' : 'Edit'}
+                            onClick={() => editingToggled()}
+                            content={isEditing ? 'Done Editing' : 'Edit'}
                         />
                     </Grid.Column>
-                    <Grid.Column width={4}>
-                        <Header inverted color='blue' as='h1' textAlign='center' content='Projects List' />
-                    </Grid.Column>
-                    <Grid.Column width={6}>
-                        {props.isEditing ?
+                    <Grid.Column width='4'>
+                        {isEditing ?
                             <Button
                                 inverted
                                 disabled={!canRestartWeek}
                                 size='small'
                                 icon='sync alternate'
-                                onClick={() => props.weekRestart(writeDebt)}
+                                onClick={() => weekRestart(writeDebt)}
                                 content='Week Restart'
                             />
                             : null
                         }
-                        {props.isEditing ?
+                        {isEditing ?
                             <Checkbox
                                 label='write debt'
                                 checked={writeDebt}
@@ -41,14 +43,11 @@ const HeaderComponent = (props) => {
                             />
                             : null
                         }
-                        <Button
-                            inverted
-                            floated='right'
-                            size='big'
-                            onClick={() => props.playingToggled()}
-                            icon={props.isPlaying ? 'pause' : 'play'}
-                        />
                     </Grid.Column>
+                    <Grid.Column width='4'>
+                        <Header inverted color='blue' as='h1' textAlign='center' content='Projects List' />
+                    </Grid.Column>
+                    <TimerComponent workMinutePassed={() => workMinutePassed()} workStateChanged={(newWorkState) => workStateChanged(newWorkState)} />
                 </Grid.Row>
             </Grid>
         </div>

@@ -1,7 +1,9 @@
 const electron = require("electron");
 const {
   app,
-  BrowserWindow
+  BrowserWindow,
+  ipcMain,
+  Notification
 } = electron;
 
 const path = require("path");
@@ -12,6 +14,8 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 820,
     height: 680,
+    minWidth: 850,
+    minHeight: 380,
     icon: '../public/icon.ico',
     webPreferences: {
       backgroundThrottling: false,
@@ -42,3 +46,13 @@ app.on("activate", () => {
     createWindow();
   }
 });
+
+ipcMain.on('notify', (_, arg) => {
+  sendNotification(arg.title, arg.body)
+})
+
+function sendNotification(title, body) {
+  new Notification({
+    title, body
+  }).show();
+}
