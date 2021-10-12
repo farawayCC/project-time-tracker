@@ -50,7 +50,7 @@ const ProjectList = ({ isEditing, rerender, projects, selectedProjectName, selec
                     <Table.Header>
                         <Table.Row>
                             <Table.HeaderCell></Table.HeaderCell>
-                            <Table.HeaderCell>ProjectName</Table.HeaderCell>
+                            <Table.HeaderCell>Project Name</Table.HeaderCell>
                             <Table.HeaderCell>Current time</Table.HeaderCell>
                             <Table.HeaderCell>Total time</Table.HeaderCell>
                             {isEditing ? <Table.HeaderCell>Is Pomidorrable</Table.HeaderCell> : null}
@@ -70,7 +70,7 @@ const ProjectList = ({ isEditing, rerender, projects, selectedProjectName, selec
                     <Table.Header>
                         <Table.Row>
                             <Table.HeaderCell></Table.HeaderCell>
-                            <Table.HeaderCell>ProjectName</Table.HeaderCell>
+                            <Table.HeaderCell>Project Name</Table.HeaderCell>
                             <Table.HeaderCell>Current time</Table.HeaderCell>
                             <Table.HeaderCell>Total time</Table.HeaderCell>
                             {isEditing ? <Table.HeaderCell>Is Pomidorrable</Table.HeaderCell> : null}
