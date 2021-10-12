@@ -1,13 +1,16 @@
-import { Button, Table, Header } from 'semantic-ui-react'
+import React, { useState } from 'react'
+import { Button, Table, Header, Checkbox, Form } from 'semantic-ui-react'
 import * as utils from '../resources/utils'
+import * as projUtils from '../resources/projectUtils'
 
-export default (props) => {
-    const id = props.project.name + props.project.totalMinutes
+export default ({ project, isSelected, selectProject, isEditing, removeProject, rerender }) => {
+    const [isPomidorable, setIsPomidorable] = useState(project.isPomidorable)
     const selectedCellStyle = { fontWeight: "bold", color: "black" }
+
     return (
-        <Table.Row active={props.isSelected}>
+        <Table.Row active={isSelected}>
             <Table.Cell style={{ paddingLeft: '1em' }}>
-                {props.isSelected
+                {isSelected
                     ? <Header color='green' content='Selected' inverted />
                     : <Button
                         basic
@@ -15,27 +18,43 @@ export default (props) => {
                         color='grey'
                         floated='left'
                         content='Select'
-                        onClick={() => props.selectProject(props.project.name)}
+                        onClick={() => selectProject(project.name)}
                     />
                 }
             </Table.Cell>
-            <Table.Cell content={props.project.name} style={props.isSelected ? selectedCellStyle : null} />
+            <Table.Cell content={project.name} style={isSelected ? selectedCellStyle : null} />
             <Table.Cell
-                content={utils.minutesToHMString(props.project.currentMinutes - props.project.debt)}
-                style={props.isSelected ? selectedCellStyle : null}
+                content={utils.minutesToHMString(project.currentMinutes - project.debt)}
+                style={isSelected ? selectedCellStyle : null}
             />
             <Table.Cell
-                content={utils.minutesToHMString(props.project.totalMinutes)}
-                style={props.isSelected ? selectedCellStyle : null}
+                content={utils.minutesToHMString(project.totalMinutes)}
+                style={isSelected ? selectedCellStyle : null}
             />
-            {props.isEditing
+            {isEditing
+                ? <Table.Cell style={{ padding: '1em' }}>
+                    <Form inverted={!isSelected}>
+                        <Form.Checkbox
+                            checked={isPomidorable}
+                            onChange={() => {
+                                setIsPomidorable(!isPomidorable)
+                                projUtils.setIsPomidorable(project.name, !isPomidorable)
+                                rerender()
+                            }}
+                            label='Is pomidorable'
+                        />
+                    </Form>
+                </Table.Cell>
+                : <Table.Cell></Table.Cell>
+            }
+            {isEditing
                 ? <Table.Cell style={{ padding: '1em' }}>
                     <Button
                         inverted
                         size='tiny'
                         color='red'
                         content='Delete'
-                        onClick={() => props.removeProject(props.project.name)}
+                        onClick={() => removeProject(project.name)}
                     />
                 </Table.Cell>
                 : <Table.Cell></Table.Cell>

@@ -4,5 +4,6 @@ export default class Project {
         this.totalMinutes = totalMinutes
         this.currentMinutes = alreadyWorked || 0
         this.debt = 0
+        this.isPomidorable = true
     }
 }

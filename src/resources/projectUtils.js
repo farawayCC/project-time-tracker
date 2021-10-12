@@ -33,7 +33,8 @@ export const weekRestart = (writeDebt) => {
 export const addProject = (projectName, totalMinutes, alreadyWorked) => {
     const prevProjects = getProjects()
     if (!prevProjects[projectName]) {
-        prevProjects[projectName] = new Project(projectName, totalMinutes, alreadyWorked || 0)
+        prevProjects[projectName] =
+            new Project(projectName, totalMinutes, alreadyWorked || 0)
         saveChanges(prevProjects)
     }
 }
@@ -76,7 +77,8 @@ export const getLastSelectedProject = () => {
             Object.keys(projects).map((key, index) => {
                 const proj = projects[key]
                 const developLevel = proj.currentMinutes / proj.totalMinutes
-                const currentLeaderLevel = leastDeveloptProj.currentMinutes / leastDeveloptProj.totalMinutes
+                const currentLeaderLevel =
+                    leastDeveloptProj.currentMinutes / leastDeveloptProj.totalMinutes
                 if (developLevel < currentLeaderLevel)
                     leastDeveloptProj = proj
             })
@@ -89,4 +91,13 @@ export const getLastSelectedProject = () => {
     return result
 }
 
-export const setLastSelectedProject = (projectName) => localStorage.setItem('lastSelectedProject', projectName)
+export const setLastSelectedProject = (projectName) =>
+    localStorage.setItem('lastSelectedProject', projectName)
+
+export const setIsPomidorable = (projectName, isPomidorable) => {
+    const prevProjects = getProjects()
+    const project = prevProjects[projectName]
+    project.isPomidorable = isPomidorable
+    prevProjects[projectName] = project
+    saveChanges(prevProjects)
+}

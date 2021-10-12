@@ -4,7 +4,7 @@ import ProjectList from '../components/ProjectList'
 import * as projUtils from '../resources/projectUtils'
 
 const MainPage = () => {
-    const [selectedProject, setSelectedProject] = useState('')
+    const [selectedProjectName, setSelectedProject] = useState('')
     const [isEditing, setIsEditing] = useState(false)
     const [projects, setProjects] = useState({})
     const [appBackgroundColor, setAppBackgroundColor] = useState('#000022')
@@ -19,7 +19,7 @@ const MainPage = () => {
     }, [])
 
     const recordWorkMinute = () => {
-        projUtils.addMinutes(selectedProject, 1)
+        projUtils.addMinutes(selectedProjectName, 1)
         setProjects(projUtils.getProjects())
     }
 
@@ -32,7 +32,7 @@ const MainPage = () => {
                 setAppBackgroundColor('#005E7C')
                 break;
             default:
-                setAppBackgroundColor('#000022')
+                setAppBackgroundColor('#0C1B33') //000022
                 break;
         }
     }
@@ -40,6 +40,8 @@ const MainPage = () => {
     return (
         <div className='App' style={{ background: appBackgroundColor }} >
             <HeaderComponent
+                projects={projects}
+                selectedProjectName={selectedProjectName}
                 isEditing={isEditing}
                 editingToggled={() => setIsEditing(!isEditing)}
                 weekRestart={(writeDebt) => {
@@ -55,7 +57,7 @@ const MainPage = () => {
                     setSelectedProject(name)
                     projUtils.setLastSelectedProject(name)
                 }}
-                selectedProject={selectedProject}
+                selectedProjectName={selectedProjectName}
                 isEditing={isEditing}
                 rerender={() => initValues()}
             />

@@ -6,42 +6,43 @@ import NewProjectTableRow from './NewProjectTableRow'
 import Project from '../resources/Project'
 
 
-const ProjectList = (props) => {
+const ProjectList = ({ isEditing, rerender, projects, selectedProjectName, selectProject }) => {
 
     const editingTableRow = (forced) => {
-        return (props.isEditing || forced
+        return (isEditing || forced
             ? <NewProjectTableRow
                 addProject={(name, alreadyWorked, totalMinutes) => {
                     projUtils.addProject(name, alreadyWorked, totalMinutes)
-                    props.rerender()
+                    rerender()
                 }} />
             : null
         )
     }
 
     const renderProjectsTable = () => {
-        const projectsCount = Object.keys(props.projects).length
+        const projectsCount = Object.keys(projects).length
         if (projectsCount != 0) {
             const internalRenderProjects = () => {
-                if (props.projects) {
-                    return Object.keys(props.projects).map((key, index) => {
-                        const project = props.projects[key]
+                if (projects) {
+                    return Object.keys(projects).map((key, index) => {
+                        const project = projects[key]
                         return (
                             <ProjectTableRow
                                 key={index}
-                                selectProject={(name) => props.selectProject(name)}
-                                isEditing={props.isEditing}
-                                isSelected={props.selectedProject === project.name}
+                                selectProject={(name) => selectProject(name)}
+                                isEditing={isEditing}
+                                isSelected={selectedProjectName === project.name}
                                 project={project}
                                 removeProject={(name) => {
                                     projUtils.removeProject(name)
-                                    props.rerender()
+                                    rerender()
                                 }}
+                                rerender={() => rerender()}
                             />
                         )
                     })
                 } else {
-                    console.log('Projects are null:', props.projects)
+                    console.log('Projects are null:', projects)
                 }
             }
             return (
@@ -52,7 +53,8 @@ const ProjectList = (props) => {
                             <Table.HeaderCell>ProjectName</Table.HeaderCell>
                             <Table.HeaderCell>Current time</Table.HeaderCell>
                             <Table.HeaderCell>Total time</Table.HeaderCell>
-                            {props.isEditing ? <Table.HeaderCell>Delete</Table.HeaderCell> : null}
+                            {isEditing ? <Table.HeaderCell>Is Pomidorrable</Table.HeaderCell> : null}
+                            {isEditing ? <Table.HeaderCell>Delete</Table.HeaderCell> : null}
                         </Table.Row>
                     </Table.Header>
 
@@ -71,14 +73,16 @@ const ProjectList = (props) => {
                             <Table.HeaderCell>ProjectName</Table.HeaderCell>
                             <Table.HeaderCell>Current time</Table.HeaderCell>
                             <Table.HeaderCell>Total time</Table.HeaderCell>
-                            {props.isEditing ? <Table.HeaderCell>Delete</Table.HeaderCell> : null}
+                            {isEditing ? <Table.HeaderCell>Is Pomidorrable</Table.HeaderCell> : null}
+                            {isEditing ? <Table.HeaderCell>Delete</Table.HeaderCell> : null}
                         </Table.Row>
                     </Table.Header>
 
                     <Table.Body>
                         <ProjectTableRow
-                            selectProject={(name) => props.selectProject(name)}
+                            selectProject={(name) => selectProject(name)}
                             project={new Project('Example Project name', 4 * 600, 1200)}
+                            rerender={() => { }}
                         />
                         {editingTableRow(true)}
                     </Table.Body>

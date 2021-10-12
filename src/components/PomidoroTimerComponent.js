@@ -1,22 +1,28 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Button, Grid, Header } from 'semantic-ui-react'
+import useInterval from '../resources/useInterval'
 
-const TimerComponent = ({ workMinutePassed, workStateChanged }) => {
+const PomidoroTimerComponent = ({ workMinutePassed, workStateChanged }) => {
+
+    // Settings
+    const startOnModeChanged = true
+    const tickEvery = 1000
+    const restMins = 7
+    const workMins = 25
 
     const getMaxTime = (isBreak) =>
         isBreak
-            ? 7 * 60 * 1000
-            : 25 * 60 * 1000
+            ? restMins * 60 * 1000
+            : workMins * 60 * 1000
 
     const [time, setTime] = useState(getMaxTime(false))
     const [isRunnung, setIsRunning] = useState(false)
     const [isBreak, setIsBreak] = useState(false)
 
-    const startOnModeChanged = true
 
     const tick = () => {
         // Check if min passed
-        const minPassed = (time/1000) % 60 === 0
+        const minPassed = (time / 1000) % 60 === 0
         const notJustStarted = time !== getMaxTime(isBreak)
         const validMinutePassed = minPassed && !isBreak && notJustStarted
         if (validMinutePassed)
@@ -26,6 +32,7 @@ const TimerComponent = ({ workMinutePassed, workStateChanged }) => {
         if (time > 0) {
             setTime(time - 1000)
         } else {
+            // Should be switched
             setIsBreak(!isBreak)
             setTime(getMaxTime(isBreak))
             const notifObj = {
@@ -37,7 +44,7 @@ const TimerComponent = ({ workMinutePassed, workStateChanged }) => {
         }
     }
 
-    useInterval(tick, isRunnung ? 1000 : null)
+    useInterval(tick, isRunnung ? tickEvery : null)
 
     useEffect(() => {
         workStateChanged(isBreak ? 'rest' : 'work')
@@ -49,8 +56,8 @@ const TimerComponent = ({ workMinutePassed, workStateChanged }) => {
     }
 
     const resetTimer = () => {
-        setTime(getMaxTime(isBreak))
         setIsRunning(false)
+        setTime(getMaxTime(isBreak))
     }
 
     const changeMode = () => {
@@ -73,34 +80,35 @@ const TimerComponent = ({ workMinutePassed, workStateChanged }) => {
     return (
         <>
             <Grid.Column width='2'>
-                <Header size='huge' style={{ color: '#fff' }}>{timerText()}</Header>
+                <Header
+                    size='huge'
+                    style={{ color: '#fff' }}
+                    content={timerText()}
+                />
             </Grid.Column>
             <Grid.Column width='4'>
-                <Button circular size='huge' icon={startPauseButtonIcon()} onClick={startOrPauseTimer} />
-                <Button circular size='huge' icon='sync alternate' disabled={isResetButtonDisabled()} onClick={resetTimer} />
-                <Button circular size='huge' icon={modeSwitcherIcon()} onClick={changeMode} />
+                <Button
+                    circular
+                    size='huge'
+                    icon={startPauseButtonIcon()}
+                    onClick={startOrPauseTimer}
+                />
+                <Button
+                    circular
+                    size='huge'
+                    icon='sync alternate'
+                    disabled={isResetButtonDisabled()}
+                    onClick={resetTimer}
+                />
+                <Button
+                    circular
+                    size='huge'
+                    icon={modeSwitcherIcon()}
+                    onClick={changeMode}
+                />
             </Grid.Column>
         </>
     )
 }
 
-function useInterval(callback, delay) {
-    const savedCallback = useRef();
-
-    useEffect(() => {
-        savedCallback.current = callback;
-    });
-
-    useEffect(() => {
-        function tick() {
-            savedCallback.current();
-        }
-
-        if (delay !== null) {
-            let id = setInterval(tick, delay);
-            return () => clearInterval(id);
-        }
-    }, [delay]);
-}
-
-export default TimerComponent
+export default PomidoroTimerComponent
