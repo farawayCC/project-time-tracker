@@ -33,22 +33,25 @@ const PomidoroTimerComponent = ({ workMinutePassed, workStateChanged }) => {
             setTime(time - 1000)
         } else {
             // Should be switched
-            setIsBreak(!isBreak)
-            setTime(getMaxTime(isBreak))
+            console.log('isBreak:', isBreak)
+            const prevIsBreak = isBreak
+
+            // Display change
+            workStateChanged(!prevIsBreak ? 'rest' : 'work')
             const notifObj = {
-                title: !isBreak ? "Lets work a bit!" : "Have a break. U deserve it",
-                body: !isBreak ? 'please...' : 'Yoohoo!'
+                title: prevIsBreak ? "Lets work a bit!" : "Have a break. U deserve it",
+                body: prevIsBreak ? 'please...' : 'Yoohoo!'
             }
             window.ipcRenderer.send('notify', notifObj)
             alert(notifObj.title)
+
+            // Actually change the data
+            setTime(getMaxTime(!prevIsBreak))
+            setIsBreak(!isBreak)
         }
     }
 
     useInterval(tick, isRunnung ? tickEvery : null)
-
-    useEffect(() => {
-        workStateChanged(isBreak ? 'rest' : 'work')
-    }, [isBreak])
 
     const startOrPauseTimer = () => {
         setIsRunning(!isRunnung)
@@ -64,6 +67,7 @@ const PomidoroTimerComponent = ({ workMinutePassed, workStateChanged }) => {
         setIsBreak(!isBreak)
         setTime(getMaxTime(!isBreak) - 1000)
         setIsRunning(startOnModeChanged)
+        workStateChanged(!isBreak ? 'rest' : 'work')
     }
 
     const timerText = () => {
