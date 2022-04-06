@@ -15,7 +15,10 @@ Here you can add new projects as well as switching timers from Tomato Timer to s
 
 
 ## How to get a build for your computer?
-    
+
+#### Get one from releases 
+https://github.com/Klygins/project-time-tracker/releases
+OR    
 #### Ask developers @farawayCC
 OR
 #### Build yourself:
